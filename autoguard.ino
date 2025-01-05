@@ -1,4 +1,4 @@
-#include <LiquidCrystal_I2C.h>
+#include <LiquidCrystal_I2C.h> // Include LCD library
 
 // Motor 1 connections
 int ENA = 5;    // PWM pin for Motor 1 speed control
@@ -14,6 +14,9 @@ int IN4 = 10;   // Motor 2 direction control pin
 int TRIG_PIN = 11; // Trigger pin
 int ECHO_PIN = 12; // Echo pin
 
+//Buzzer 
+int BUZZ = 13;
+
 // Define motor direction constants
 int FORWARD = 1;
 int REVERSE = 0;
@@ -23,7 +26,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 
 const float MAX_RPM = 3760.0;
-const float WHEEL_CIRCUMFERENCE = 0.2;
+const float WHEEL_CIRCUMFERENCE = 0.2; // Example: 20 cm (0.2 m)
 
 void setup() {
   // Set up motor control pins
@@ -37,7 +40,10 @@ void setup() {
   // Set up ultrasonic sensor pins
   pinMode(TRIG_PIN, OUTPUT);
   pinMode(ECHO_PIN, INPUT);
-
+  
+  // Set up BUzzer pins
+  pinMode(BUZZ, OUTPUT);
+  
   // Initialize the LCD
   lcd.init();
   lcd.backlight();
@@ -77,6 +83,10 @@ void loop() {
     lcd.print("Dist: ");
     lcd.print(distance);
     lcd.print(" cm      ");
+     digitalWrite(BUZZ, HIGH);
+    delay(2000);
+    digitalWrite(BUZZ, LOW);
+    
   } else if (distance > 10 && distance <= 20) { // Medium distance
     int speed = map(distance, 100, 500, 100, 255); // Map distance to PWM speed
     speed_kmph = calculateSpeed(speed);
