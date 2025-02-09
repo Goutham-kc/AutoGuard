@@ -88,7 +88,7 @@ void loop() {
     digitalWrite(BUZZ, LOW);
     
   } else if (distance > 10 && distance <= 20) { // Medium distance
-    int speed = map(distance, 100, 500, 100, 255); // Map distance to PWM speed
+    int speed = map(distance, 10, 20, 100, 255); // Map distance to PWM speed
     speed_kmph = calculateSpeed(speed);
     moveMotors(FORWARD, speed);
     lcd.setCursor(0, 0);
